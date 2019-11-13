@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   # resources :cards
   # resources :themes, 
-  resources :games
+  # resources :games
   resources :users
   
   get '/themes', to: "themes#index"
@@ -15,3 +15,4 @@ Rails.application.routes.draw do
   get '/cards/:theme_id', to: "cards#filter"
 
 end
+

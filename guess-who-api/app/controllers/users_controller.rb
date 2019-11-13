@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
     def index
-    users = User.all 
-    render json: UserSerializer.new(users).serialized_json
+        users = User.all 
+        render json: UserSerializer.new(users).serialized_json
     end
 
     def create 
@@ -16,6 +16,12 @@ class UsersController < ApplicationController
         user = User.find_by(username: data['username'])
         user.password_digest == data['password'] ? (render json: UserSerializer.new(user).serialized_json) : (render json: null)
     end 
+
+    def show
+        user = User.find(params[:id])
+
+        render json: user
+    end
 
 
 end
