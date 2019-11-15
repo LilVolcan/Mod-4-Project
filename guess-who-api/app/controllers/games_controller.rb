@@ -5,6 +5,28 @@ class GamesController < ApplicationController
 
         render json: games
     end
+
+    def iscard
+        data = JSON.parse(request.raw_post)
+        game = Game.find(data["game_id"])
+        
+        message = {}
+        if game.player1_id == data["user_id"]
+            if game.p2card_id == data["card_id"]
+                message = {username: "admin", message: "you have successfully guessed the card!!"}
+            else
+                message = {username: "admin", message: "you failed now you have lost your turn"}
+            end
+        else
+            if game.p1card_id == data["card_id"]
+                message = {username: "admin", message: "you have successfully guessed the card!!"}
+            else
+                message = {username: "admin", message: "you failed now you have lost your turn"}
+            end
+        end
+
+           render json: message
+    end 
    
     def create
         data = JSON.parse(request.raw_post)
@@ -22,4 +44,13 @@ class GamesController < ApplicationController
         # byebug
         render json: game
     end 
+
+    def sendmessage
+        data = JSON.parse(request.raw_post)
+        # byebug
+        ActionCable.server.broadcast('question_channel', data)
+    end 
+
 end
+
+f
