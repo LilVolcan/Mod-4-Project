@@ -9,20 +9,20 @@ class GamesController < ApplicationController
     def iscard
         data = JSON.parse(request.raw_post)
         game = Game.find(data["game_id"])
-        
         message = {}
-        if game.player1_id == data["user_id"]
+        if game.player1_id == data["user_id"].to_i
             if game.p2card_id == data["card_id"]
                 message = {username: "admin", message: "you have successfully guessed the card!!"}
             else
                 message = {username: "admin", message: "you failed now you have lost your turn"}
             end
-        else
+        else if game.player2_id == data["user_id"].to_i
             if game.p1card_id == data["card_id"]
                 message = {username: "admin", message: "you have successfully guessed the card!!"}
             else
                 message = {username: "admin", message: "you failed now you have lost your turn"}
             end
+        end
         end
 
            render json: message
